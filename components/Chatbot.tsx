@@ -11,7 +11,7 @@ interface Message {
 const Chatbot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: `Olá! Bem-vindo ao suporte Kukula. Como posso ajudar você hoje em Morrumbala?` }
+    { role: 'assistant', content: `Olá! Sou o assistente inteligente da ${SCHOOL_INFO.name}. Como posso ajudar você hoje em Morrumbala?` }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -45,35 +45,41 @@ const Chatbot: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-[60]">
+    <div className="fixed bottom-8 right-8 z-[60]">
       {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-16 h-16 bg-blue-950 rounded-full flex items-center justify-center text-white shadow-2xl hover:bg-emerald-600 transition-all hover:scale-110 active:scale-90 border-2 border-white/20"
+        className="w-18 h-18 bg-blue-950 rounded-[2rem] flex items-center justify-center text-white shadow-[0_20px_40px_rgba(0,0,0,0.3)] hover:bg-emerald-600 transition-all hover:scale-105 active:scale-90 border-4 border-white/10"
       >
         {isOpen ? (
           <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
         ) : (
-          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
+          <div className="relative">
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
+            <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full animate-ping"></span>
+          </div>
         )}
       </button>
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="absolute bottom-20 right-0 w-[90vw] sm:w-[400px] bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col border border-gray-100 animate-in fade-in slide-in-from-bottom-8 duration-500">
-          <div className="bg-blue-950 p-7 text-white relative">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full -mr-16 -mt-16"></div>
-            <h3 className="font-bold text-xl tracking-tight">KUKULA AI</h3>
-            <p className="text-[10px] text-emerald-400 opacity-80 uppercase tracking-widest font-bold">Assistente Morrumbala 24/7</p>
+        <div className="absolute bottom-24 right-0 w-[90vw] sm:w-[420px] bg-white rounded-[3rem] shadow-[0_30px_60px_rgba(0,0,0,0.2)] overflow-hidden flex flex-col border border-gray-100 animate-in fade-in slide-in-from-bottom-10 duration-500">
+          <div className="bg-blue-950 p-8 text-white relative">
+            <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-500/10 rounded-full -mr-20 -mt-20"></div>
+            <h3 className="font-bold text-2xl tracking-tight mb-1 font-display">KUKULA ASSIST</h3>
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+              <p className="text-[10px] text-emerald-400 uppercase tracking-[0.3em] font-bold">Online em Morrumbala</p>
+            </div>
           </div>
           
-          <div className="flex-1 h-[400px] overflow-y-auto p-6 space-y-6 bg-gray-50/50">
+          <div className="flex-1 h-[450px] overflow-y-auto p-8 space-y-8 bg-gray-50/50">
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[85%] px-5 py-3 rounded-2xl text-sm leading-relaxed shadow-sm ${
+                <div className={`max-w-[85%] px-6 py-4 rounded-[1.5rem] text-sm leading-relaxed shadow-sm ${
                   m.role === 'user' 
-                    ? 'bg-blue-600 text-white rounded-br-none' 
-                    : 'bg-white text-gray-800 rounded-bl-none border border-gray-100'
+                    ? 'bg-blue-950 text-white rounded-br-none shadow-blue-900/10' 
+                    : 'bg-white text-gray-800 rounded-bl-none border border-gray-100 shadow-gray-200/50'
                 }`}>
                   {m.content}
                 </div>
@@ -81,7 +87,7 @@ const Chatbot: React.FC = () => {
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-white border border-gray-100 px-5 py-3 rounded-2xl rounded-bl-none flex space-x-1 shadow-sm">
+                <div className="bg-white border border-gray-100 px-6 py-4 rounded-[1.5rem] rounded-bl-none flex space-x-2 shadow-sm">
                   <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce"></div>
                   <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
                   <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce [animation-delay:0.4s]"></div>
@@ -91,18 +97,18 @@ const Chatbot: React.FC = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          <form onSubmit={handleSubmit} className="p-6 border-t border-gray-100 bg-white flex gap-3">
+          <form onSubmit={handleSubmit} className="p-8 border-t border-gray-100 bg-white flex gap-4">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Como podemos ajudar?"
-              className="flex-1 bg-gray-50 border border-gray-200 rounded-2xl px-5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+              placeholder="Digite sua dúvida..."
+              className="flex-1 bg-gray-50 border border-gray-200 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all font-medium"
             />
             <button
               type="submit"
               disabled={isLoading || !input.trim()}
-              className="bg-blue-950 text-white p-3.5 rounded-2xl hover:bg-emerald-600 disabled:opacity-50 transition-all shadow-lg active:scale-90"
+              className="bg-blue-950 text-white p-4 rounded-2xl hover:bg-emerald-600 disabled:opacity-50 transition-all shadow-xl active:scale-90"
             >
               <svg className="w-6 h-6 transform rotate-90" fill="currentColor" viewBox="0 0 20 20"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" /></svg>
             </button>
